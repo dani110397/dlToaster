@@ -1,4 +1,4 @@
-# DLTaster
+# DLToaster
 DLToaster ist eine leichte und benutzerfreundliche JavaScript-Bibliothek für die Implementierung von Toast-Benachrichtigungen in Webanwendungen. Mit DLToaster können Sie einfach und effektiv Toast-Nachrichten anzeigen, um Benutzer über bestimmte Ereignisse oder Informationen zu informieren.
 
 ## Features
