@@ -116,7 +116,7 @@ export default class DLToaster{
         this.#container = document.querySelector(selector) || createContainer(position);       
         
         if(this.#append == "before"){
-            this.#container.insertBefore(this.#toaster,container.firstChild);
+            this.#container.insertBefore(this.#toaster, this.#container.firstChild);
         }else{
             this.#container.append(this.#toaster);
         }

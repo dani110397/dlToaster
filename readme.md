@@ -18,7 +18,7 @@ DLToaster ist eine leichte und benutzerfreundliche JavaScript-Bibliothek für di
 ## Methoden
 | Methode | Action |
 | ------- | ------- |
-| show | shows tea toaster |
+| show | shows the toaster |
 | remove | removes the toaster from dom |
 
 ## Example
