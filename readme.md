@@ -41,6 +41,8 @@ DLToaster ist eine leichte und benutzerfreundliche JavaScript-Bibliothek für di
 ```
 
 ## Events
-dlToast:closeing -> Toaster is closeing
-dlToast:close -> Toaster is closed
-dlToast:show -> Toaster shows
+| Event | Fires if |
+| ------- | ------- | 
+| dlToast:closeing | Toaster is closeing
+| dlToast:close | Toaster is closed
+| dlToast:show | Toaster shows
