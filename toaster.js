@@ -17,6 +17,7 @@ export default class DLToaster{
     #intervall
     #append
     #progressIntervall
+    #container
 
     constructor(options){
         this.#toaster = document.createElement("div");
@@ -65,22 +66,9 @@ export default class DLToaster{
         }
 
         this.#append = options.append || DEFAULTVALUES.append;
-
         Object.entries({...DEFAULTVALUES, ...options}).forEach(([key,value]) =>{            
             this[key] = value
         });
-    }
-
-    set position(value){
-        var selector = `.dl-toast-container[data-position=${value}]`,
-        container = document.querySelector(selector) || createContainer(value);
-
-        if(this.#append == "before"){
-            container.insertBefore(this.#toaster,container.firstChild);
-        }else{
-            container.append(this.#toaster);
-        }
-        
     }
 
     set mainText(value){
@@ -116,13 +104,39 @@ export default class DLToaster{
         })
     }
 
+    show(value){
+        if(value){
+            value.mainText ? this.#toaster.querySelector(".dl-toast-text-main").innerHTML = value.mainText : null;
+            value.detailText ? this.#toaster.querySelector(".dl-toast-text-detail").innerHTML = value.detailText : null;
+        }
+        
+        var position = value ?  value.position : this.position;
+
+        var selector = `.dl-toast-container[data-position=${position}]`;
+        this.#container = document.querySelector(selector) || createContainer(position);       
+        
+        if(this.#append == "before"){
+            this.#container.insertBefore(this.#toaster,container.firstChild);
+        }else{
+            this.#container.append(this.#toaster);
+        }
+
+        const event = new CustomEvent("dlToast:show",{detail: this.#toaster});
+        document.dispatchEvent(event);
+    }
+
     remove(){
         const container = this.#toaster.parentElement;
         this.#toaster.classList.add("closeing"); 
-        const event = new CustomEvent("dlToast:close",{detail: this.#toaster});
+        const event = new CustomEvent("dlToast:closeing",{detail: this.#toaster});
         document.dispatchEvent(event);
         setTimeout(()=>{
-            this.#toaster.remove();
+            this.#toaster.remove(); //remove from dom
+            this.#toaster.classList.remove("closeing"); 
+
+            const event = new CustomEvent("dlToast:close",{detail: this.#toaster});
+            document.dispatchEvent(event);
+
             clearInterval(this.#progressIntervall);
             if(container != null && !container.hasChildNodes()){
                 container.remove();
