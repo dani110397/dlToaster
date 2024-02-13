@@ -79,17 +79,17 @@ export default class DLToaster{
         this.#toaster.querySelector(".dl-toast-text-detail").textContent = value;
     }
 
-    set autoClose(value){
-        if(value === false){return}
-        var setDate = new Date();
-        this.#progressIntervall = setInterval(()=>{
-            var x = (100-(((((setDate - new Date() ) / 1000) * (-1)) / value )*100)).toString();
-            this.#toaster.querySelector(".dl-toast-progress-bar").style.width = x + "%";
-        },10)
-        this.#intervall = setTimeout(()=>{
-            this.remove();
-        },value*1000)
-    }
+    // set autoClose(value){
+    //     if(value === false){return}
+    //     var setDate = new Date();
+    //     this.#progressIntervall = setInterval(()=>{
+    //         var x = (100-(((((setDate - new Date() ) / 1000) * (-1)) / value )*100)).toString();
+    //         this.#toaster.querySelector(".dl-toast-progress-bar").style.width = x + "%";
+    //     },10)
+    //     this.#intervall = setTimeout(()=>{
+    //         this.remove();
+    //     },value*1000)
+    // }
 
     set manuallyClose(value){
         if(value === false){
@@ -105,6 +105,27 @@ export default class DLToaster{
     }
 
     show(value){
+        var autoClose;
+        if(Object.keys(value).includes("autoClose")){
+            autoClose = value.autoClose;
+        }else{
+            autoClose = this.autoClose;
+        }
+
+        this.#toaster.querySelector(".dl-toast-progress-bar").style.width = "100%";
+
+        if(autoClose != false){
+            var setDate = new Date();
+            this.#progressIntervall = setInterval(()=>{
+                var x = (100-(((((setDate - new Date() ) / 1000) * (-1)) / autoClose )*100)).toString();
+                this.#toaster.querySelector(".dl-toast-progress-bar").style.width = x + "%";
+            },10)
+            this.#intervall = setTimeout(()=>{
+                this.remove();
+            },autoClose*1000)
+        }
+
+
         if(value){
             value.mainText ? this.#toaster.querySelector(".dl-toast-text-main").innerHTML = value.mainText : null;
             value.detailText ? this.#toaster.querySelector(".dl-toast-text-detail").innerHTML = value.detailText : null;
@@ -133,11 +154,12 @@ export default class DLToaster{
         setTimeout(()=>{
             this.#toaster.remove(); //remove from dom
             this.#toaster.classList.remove("closeing"); 
-
+            clearInterval(this.#progressIntervall);
+            
             const event = new CustomEvent("dlToast:close",{detail: this.#toaster});
             document.dispatchEvent(event);
 
-            clearInterval(this.#progressIntervall);
+            
             if(container != null && !container.hasChildNodes()){
                 container.remove();
             }

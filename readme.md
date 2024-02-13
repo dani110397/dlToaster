@@ -36,7 +36,7 @@ DLToaster ist eine leichte und benutzerfreundliche JavaScript-Bibliothek für di
         append: "after"
     });
 
-    toaster.show({mainText:"", detailText:"", position:""});
+    toaster.show({mainText:"", detailText:"", position:"", autoClose: 5});
 </script>
 ```
 
