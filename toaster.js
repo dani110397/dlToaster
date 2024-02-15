@@ -112,14 +112,16 @@ export default class DLToaster{
             autoClose = this.autoClose;
         }
 
-        this.#toaster.querySelector(".dl-toast-progress-bar").style.width = "100%";
+        if(this.#toaster.querySelector(".dl-toast-progress-bar")) this.#toaster.querySelector(".dl-toast-progress-bar").style.width = "100%";
 
         if(autoClose != false){
             var setDate = new Date();
-            this.#progressIntervall = setInterval(()=>{
-                var x = (100-(((((setDate - new Date() ) / 1000) * (-1)) / autoClose )*100)).toString();
-                this.#toaster.querySelector(".dl-toast-progress-bar").style.width = x + "%";
-            },10)
+            if(this.#toaster.querySelector(".dl-toast-progress-bar")){
+                this.#progressIntervall = setInterval(()=>{
+                    var x = (100-(((((setDate - new Date() ) / 1000) * (-1)) / autoClose )*100)).toString();
+                    this.#toaster.querySelector(".dl-toast-progress-bar").style.width = x + "%";
+                },10)
+            }
             this.#intervall = setTimeout(()=>{
                 this.remove();
             },autoClose*1000)
@@ -131,7 +133,7 @@ export default class DLToaster{
             value.detailText ? this.#toaster.querySelector(".dl-toast-text-detail").innerHTML = value.detailText : null;
         }
         
-        var position = value ?  value.position : this.position;
+        var position = value ?  value.position || this.position : this.position;
 
         var selector = `.dl-toast-container[data-position=${position}]`;
         this.#container = document.querySelector(selector) || createContainer(position);       
@@ -155,7 +157,7 @@ export default class DLToaster{
             this.#toaster.remove(); //remove from dom
             this.#toaster.classList.remove("closeing"); 
             clearInterval(this.#progressIntervall);
-            
+
             const event = new CustomEvent("dlToast:close",{detail: this.#toaster});
             document.dispatchEvent(event);
 
