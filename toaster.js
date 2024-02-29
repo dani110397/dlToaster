@@ -79,18 +79,6 @@ export default class DLToaster{
         this.#toaster.querySelector(".dl-toast-text-detail").textContent = value;
     }
 
-    // set autoClose(value){
-    //     if(value === false){return}
-    //     var setDate = new Date();
-    //     this.#progressIntervall = setInterval(()=>{
-    //         var x = (100-(((((setDate - new Date() ) / 1000) * (-1)) / value )*100)).toString();
-    //         this.#toaster.querySelector(".dl-toast-progress-bar").style.width = x + "%";
-    //     },10)
-    //     this.#intervall = setTimeout(()=>{
-    //         this.remove();
-    //     },value*1000)
-    // }
-
     set manuallyClose(value){
         if(value === false){
             this.#toaster.querySelector(".dl-toast-dismiss").remove();

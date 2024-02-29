@@ -16,11 +16,12 @@
     var toaster = new DLToaster({
         progressBar: true,
         mainText: "fdgjdfhgdjhgfhd",
+        autoClose: 2,
     });
 
     toaster.show({detailText: "detail Text", position:"bottom-center"});
 
     document.addEventListener("dlToast:close",function(){
-        toaster.show({detailText: "detail Text", position:"bottom-center", autoClose: 20});
+        toaster.show({detailText: "detail Text",  autoClose: false});
     })   
 </script>
